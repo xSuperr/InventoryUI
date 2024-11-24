@@ -19,20 +19,6 @@ class InventoryUI {
 
         $server = $plugin->getServer();
 
-        $manager = $server->getResourcePackManager();
-        if (!$manager->resourcePacksRequired()) {
-            throw new InventoryUIResourcePackException("'force_resources' must be set to 'true'");
-        }
-
-        $pack = $manager->getPackById(self::uuid);
-        if ($pack === null) {
-            throw new InventoryUIResourcePackException("Resource pack 'Inventory UI Resource Pack' not found");
-        }
-
-        if ($pack->getPackVersion() !== self::version) {
-            throw new InventoryUIResourcePackException("'Inventory UI Resource Pack' version did not match");
-        }
-
         $server->getPluginManager()->registerEvents(new EventListener(), $plugin);
 
         $plugin->getScheduler()->scheduleRepeatingTask(new InventoryTickTask($server), 1);
