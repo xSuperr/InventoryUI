@@ -21,6 +21,10 @@ class InventoryUI {
 
         $server->getPluginManager()->registerEvents(new EventListener(), $plugin);
 
+        EntityFactory::getInstance()->register(InventoryEntity::class, function (World $world, CompoundTag $nbt): InventoryEntity {
+            return new InventoryEntity(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["inventoryui:inventory"]);
+
         $plugin->getScheduler()->scheduleRepeatingTask(new InventoryTickTask($server), 1);
 
         $nbt = new CompoundTag();
